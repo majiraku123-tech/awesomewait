@@ -1,0 +1,236 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   FestivalFlow AI — デザインシステム変数
+   ============================================================ */
+
+:root {
+  /* カラーパレット */
+  --color-primary:         #0056b3;  /* Trust Blue */
+  --color-primary-light:   #3b82f6;
+  --color-primary-dark:    #003d82;
+  --color-accent:          #ff8c00;  /* Energy Orange */
+  --color-accent-light:    #ffb347;
+  --color-surface:         #ffffff;
+  --color-surface-alt:     #f0f4f8;
+  --color-text-primary:    #0f172a;
+  --color-text-secondary:  #475569;
+  --color-wait-low:        #3b82f6;  /* 10分未満 */
+  --color-wait-mid:        #facc15;  /* 10〜20分 */
+  --color-wait-high:       #ef4444;  /* 20分以上 */
+
+  /* ボーダー半径 */
+  --radius-card:           16px;
+  --radius-button:         10px;
+
+  /* シャドウ */
+  --shadow-card:           0 4px 24px rgba(0, 86, 179, 0.10);
+  --shadow-card-hover:     0 8px 32px rgba(0, 86, 179, 0.18);
+
+  /* タイポグラフィ */
+  --font-primary:          'Noto Sans JP', 'Inter', sans-serif;
+  --font-numeric:          'Inter', 'Noto Sans JP', sans-serif;
+}
+
+/* ============================================================
+   ベーススタイル
+   ============================================================ */
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-family: var(--font-primary);
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-alt);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================
+   ユーティリティクラス
+   ============================================================ */
+
+@layer components {
+  /* カード共通スタイル */
+  .card {
+    @apply bg-white rounded-[16px] shadow-card p-4 md:p-6;
+  }
+
+  .card-hover {
+    @apply card transition-all duration-200 hover:-translate-y-0.5;
+    box-shadow: var(--shadow-card);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .card-hover:hover {
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  /* ボタン共通スタイル */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2
+           px-5 py-3 min-h-[44px] min-w-[44px]
+           bg-[#0056b3] text-white font-medium text-sm
+           rounded-[10px] border border-transparent
+           transition-all duration-200
+           hover:bg-[#003d82] active:scale-95
+           disabled:opacity-50 disabled:cursor-not-allowed
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0056b3] focus-visible:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2
+           px-5 py-3 min-h-[44px] min-w-[44px]
+           bg-white text-[#0056b3] font-medium text-sm
+           rounded-[10px] border border-[#0056b3]
+           transition-all duration-200
+           hover:bg-blue-50 active:scale-95
+           disabled:opacity-50 disabled:cursor-not-allowed
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0056b3] focus-visible:ring-offset-2;
+  }
+
+  .btn-accent {
+    @apply inline-flex items-center justify-center gap-2
+           px-5 py-3 min-h-[44px] min-w-[44px]
+           bg-[#ff8c00] text-white font-medium text-sm
+           rounded-[10px] border border-transparent
+           transition-all duration-200
+           hover:bg-[#e07b00] active:scale-95
+           disabled:opacity-50 disabled:cursor-not-allowed
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff8c00] focus-visible:ring-offset-2;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2
+           px-4 py-2 min-h-[44px] min-w-[44px]
+           bg-transparent text-[#475569] font-medium text-sm
+           rounded-[10px] border border-transparent
+           transition-all duration-200
+           hover:bg-gray-100 active:scale-95
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2;
+  }
+
+  /* 入力フィールド */
+  .input-field {
+    @apply w-full px-4 py-3 min-h-[44px]
+           bg-white text-[#0f172a] text-sm
+           border border-gray-200 rounded-[10px]
+           transition-all duration-200
+           placeholder:text-gray-400
+           focus:outline-none focus:ring-2 focus:ring-[#0056b3] focus:border-transparent
+           disabled:bg-gray-50 disabled:cursor-not-allowed;
+  }
+
+  /* バッジ */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5
+           text-xs font-medium rounded-full;
+  }
+
+  .badge-blue  { @apply badge bg-blue-100 text-blue-800; }
+  .badge-yellow { @apply badge bg-yellow-100 text-yellow-800; }
+  .badge-red   { @apply badge bg-red-100 text-red-800; }
+  .badge-green { @apply badge bg-green-100 text-green-800; }
+  .badge-gray  { @apply badge bg-gray-100 text-gray-700; }
+
+  /* セクションヘッダー */
+  .section-header {
+    @apply text-lg md:text-xl font-bold text-[#0f172a] mb-4 flex items-center gap-2;
+  }
+
+  /* ページコンテナ */
+  .page-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6;
+  }
+
+  /* ローディングスピナー */
+  .spinner {
+    @apply w-5 h-5 border-2 border-t-transparent rounded-full animate-spin;
+  }
+
+  /* プログレスバー */
+  .progress-bar-track {
+    @apply w-full h-2 bg-gray-200 rounded-full overflow-hidden;
+  }
+
+  .progress-bar-fill {
+    @apply h-full rounded-full transition-all duration-700 ease-out;
+  }
+}
+
+/* ============================================================
+   アニメーション
+   ============================================================ */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(16px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes bounceIn {
+  0%   { transform: scale(0.9); opacity: 0; }
+  60%  { transform: scale(1.03); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-fade-in    { animation: fadeIn 0.3s ease-out both; }
+.animate-slide-in   { animation: slideInRight 0.3s ease-out both; }
+.animate-bounce-in  { animation: bounceIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+
+/* スケルトンローダー */
+.skeleton {
+  background: linear-gradient(90deg, #f0f4f8 25%, #e2e8f0 50%, #f0f4f8 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+/* ============================================================
+   スクロールバーカスタマイズ
+   ============================================================ */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f0f4f8;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* ============================================================
+   印刷スタイル
+   ============================================================ */
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: white; }
+  .card { box-shadow: none; border: 1px solid #e2e8f0; }
+}
